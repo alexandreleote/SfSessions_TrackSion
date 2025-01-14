@@ -102,6 +102,11 @@ class Session
         return $this;
     }
 
+    public function getNbPlacesRestantes(): int
+    {
+        return $this->nbPlacesTotal - $this->inscriptions->count();
+    }
+
     public function getDetailProgramme(): ?string
     {
         return $this->detailProgramme;

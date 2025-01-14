@@ -4,17 +4,21 @@
 
 {% block body %}
 
-    <article class="home-mobile">
-        <h2>Titre Formation</h2>
-
-        <section>
-            <div>
-                <p>Places restantes : <span>3</span>/10</p>
-                <p>Dates : <span>10/10/2025 - 11/11/2025</span></p>
-                <p>Référent : <a href="">Monsieur E. MULLER</a></p>
-            </div>
-            <a href=""><i class="fa-solid fa-chevron-right"></i></a>
-        </section>
+    <article>
+        {% for session in sessions %}
+            <section class="home-mobile">
+                <h2>{{ session.intitule }}</h2>
+                <aside class="session-mobile">
+                    <div>
+                        <p>Places restantes : <span>{{ session.nbPlacesRestantes }}</span>/{{ session.nbPlacesTotal }}</p>
+                        <p>Dates : <span>{{ session.dateDebut|date('d/m/Y') }} - {{ session.dateFin|date('d/m/Y') }}</span></p>
+                        <p>Référent : <a href="">Monsieur E. MULLER</a></p>
+                    </div>
+                    <a href=""><i class="fa-solid fa-chevron-right"></i></a>
+                </aside>
+            </section>
+        {% endfor %}
     </article>
-   
+
+
 {% endblock %}
