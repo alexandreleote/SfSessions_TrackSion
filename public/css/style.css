@@ -1,0 +1,188 @@
+/* Imports */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap');
+
+/* Roots */
+
+:root {
+    
+    /* Fonts */
+    --font-family-poppins: 'Poppins', sans-serif;
+    --font-family-teachers: 'Teachers', serif;
+    
+    /* Font-sizes */
+    --font-size-small: 0.875rem;
+    --font-size-medium: 1rem;
+    --font-size-large: 1.25rem;
+
+    /* Font-weights */
+    --font-weight-light:300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* Colors */
+    --primary-purple: #3d348b;
+    --primary-violet: #7978ed;
+    --primary-yellow: #f7b801;
+    --primary-orange: #f18701;
+    --primary-dark-orange: #f35b04;
+    --primary-white: #f9f9f9;
+    --primary-black: #191919;
+
+    /* Backgrounds */
+    --bg-purple: #7678ed80;
+
+    /* Transitions */
+    --transition-duration: .55s ease-in-out;
+    --transition-font-style: .25s ease-in-out;
+    
+    /* Breakpoints */
+    --breakpoint-small: 480px;
+    --breakpoint-medium: 768px;
+    --breakpoint-large: 992px;
+    --breakpoint-extra-large: 1200px;
+    
+    /* Spacing */
+    --space-small: 0.25rem;
+    --space-medium: 0.5rem;
+    --space-large: 1rem;
+    --space-extra-large: 1.5rem;
+    --space-double-extra-large: 3rem;
+    
+    /* Borders */
+    --border-radius-small: 8px;
+    --border-radius-medium: 15px;
+    --border-radius-large: 25px;
+
+}
+
+/* Global Parameters */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family-teachers);
+}
+
+body {
+    background-color: var(--bg-purple);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 145px;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 85px;
+}
+
+/* Mobile First */
+
+/* Header */
+.header-mobile {
+    width: 100vw;
+    height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-purple);
+    border-radius: 0 0 25px 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    transition: height var(--transition-duration);
+
+    & h1 {
+        font-size: 36px;
+
+        & .title-pre {
+            display: inline-block;
+            background: linear-gradient(130deg, var(--primary-yellow), var(--primary-orange));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: var(--font-weight-extrabold);
+        }
+
+        & .title-post {
+            font-style: italic;
+            color: var(--primary-white);
+            font-weight: var(--font-weight-regular);
+        }
+    }
+}
+
+/* Header réduit lors du scroll */
+.header-mobile.scrolled {
+    height: 85px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    & h1 {
+        font-size: 28px;
+    }
+}
+
+/* Navbar */
+.navbar-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 65px;
+    background-color: var(--primary-white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 -4px 80px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+
+    & a {
+        color: var(--primary-purple);
+        text-decoration: none;
+        font-size: 25px;
+        transition: color var(--transition-duration);
+    
+        &:hover {
+            color: var(--primary-dark-orange);
+        }
+    }
+}
+
+/* Footer */
+.footer-mobile {
+    width: 100vw;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 65px;
+}
+
+
+/* Views */
+
+/* Home */
+.home-mobile {
+
+    width: 65vw;
+    height: 145px;
+    margin: 10px auto;
+    padding: 20px;
+    border-radius: var(--border-radius-large);
+    background-color: var(--primary-white);
+    
+
+    & section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        
+    }
+}
