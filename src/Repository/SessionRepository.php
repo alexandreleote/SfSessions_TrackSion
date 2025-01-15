@@ -16,6 +16,37 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
+    public function findByCurrentSessions(): array
+    {
+
+        return $this->createQueryBuilder('s')
+            ->where('s.dateDebut <= :now AND s.dateFin >= :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByNextSessions(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateDebut > :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByPastSessions(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateFin < :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateFin', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

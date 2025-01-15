@@ -1,23 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}TrackSion - Home{% endblock %}
+
+{% block header %}
+    <a href={{ path('app_home')}}><h1><span class="title-pre">Track</span><span class="title-post">Sion</span></h1></a>
+{% endblock %}
+
 
 {% block body %}
 
-    <article>
-        {% for session in sessions %}
-            <section class="home-mobile">
-                <h2>{{ session.intitule }}</h2>
-                <aside class="session-mobile">
-                    <div>
-                        <p>Places restantes : <span>{{ session.nbPlacesRestantes }}</span>/{{ session.nbPlacesTotal }}</p>
-                        <p>Dates : <span>{{ session.dateDebut|date('d/m/Y') }} - {{ session.dateFin|date('d/m/Y') }}</span></p>
-                        <p>Référent : <a href="">Monsieur E. MULLER</a></p>
+    <article class="">
+
+        <header class="session-index">
+            <div class="session-index-title">
+                <h2>Bienvenue</h2>
+                <hr class="title-line">
+            </div>
+        </header>
+
+        <section class="">
+
+            <h3>Sessions en cours</h3>
+
+            <div class="session-info">
+                {% for currentSession in currentSessions %}
+                    
+                    <div class="">
+                        <aside class="">
+                            <h3>{{ currentSession.intitule }}</h3>
+                            <p>Places restantes : <span>{{ currentSession.nbPlacesRestantes }}</span>/{{ currentSession.nbPlacesTotal }}</p>
+                            <p>Dates : <span>{{ currentSession}}</span></p>
+                            <p>Référent : <a href="">{{ currentSession.professeur }}</a></p>
+                        </aside>
+                        <a href="{{ path('show_session', {'id' : currentSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
                     </div>
-                    <a href=""><i class="fa-solid fa-chevron-right"></i></a>
-                </aside>
-            </section>
-        {% endfor %}
+                
+                {% endfor %}
+            </div>
+        </section>
+        
+        <section class="">
+
+            <h3>Sessions à venir</h3>
+
+            <div class="session-info">
+                {% for nextSession in nextSessions %}
+                    
+                    <div class="">
+                        <aside class="">
+                            <h3>{{ nextSession.intitule }}</h3>
+                            <p>Places restantes : <span>{{ nextSession.nbPlacesRestantes }}</span>/{{ nextSession.nbPlacesTotal }}</p>
+                            <p>Dates : <span>{{ nextSession }}</span></p>
+                            <p>Référent : <a href="">{{ nextSession.professeur }}</a></p>
+                        </aside>
+                        <a href="{{ path('show_session', {'id' : nextSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="">
+
+            <h3>Sessions terminées</h3>
+
+            <div class="session-info">
+                {% for pastSession in pastSessions %}
+                    
+                    <div class="">
+                        <aside class="">
+                            <h3>{{ pastSession.intitule }}</h3>
+                            <p>Places restantes : <span>{{ pastSession.nbPlacesRestantes }}</span>/{{ pastSession.nbPlacesTotal }}</p>
+                            <p>Dates : <span>{{ pastSession }}</span></p>
+                            <p>Référent : <a href="">{{ pastSession.professeur }}</a></p>
+                        </aside>
+                        <a href="{{ path('show_session', {'id' : pastSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                
+                {% endfor %}
+            </div>
+        </section>
+
     </article>
 
 

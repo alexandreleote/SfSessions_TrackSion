@@ -8,14 +8,19 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\SessionRepository;
 
 final class HomeController extends AbstractController{
+
     #[Route('/home', name: 'app_home')]
     public function index(SessionRepository $sessionRepository): Response
     {
-        $sessions = $sessionRepository->findAll();
+        $currentSessions = $sessionRepository->findByCurrentSessions();
+        $nextSessions = $sessionRepository->findByNextSessions();
+        $pastSessions = $sessionRepository->findByPastSessions();
 
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'sessions' => $sessions,
+            'controller_name' => 'SessionController',
+            'currentSessions' => $currentSessions,
+            'nextSessions' => $nextSessions,
+            'pastSessions' => $pastSessions,
         ]);
     }
 }

@@ -38,14 +38,14 @@ class Stagiaire
     private ?string $phone = null;
 
     /**
-     * @var Collection<int, Inscrire>
+     * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'stagiaire')]
-    private Collection $inscriptions;
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'stagiaire')]
+    private Collection $sessions;
 
     public function __construct()
     {
-        $this->inscriptions = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +76,12 @@ class Stagiaire
 
         return $this;
     }
+
+    public function getInitiales(): string
+    {
+        return mb_substr($this->prenom, 0, 1). '. '. mb_substr($this->nom, 0, 1);
+    }
+
 
     public function getGenre(): ?string
     {
@@ -137,31 +143,33 @@ class Stagiaire
         return $this;
     }
 
-    /**
-     * @return Collection<int, Inscrire>
-     */
-    public function getInscriptions(): Collection
+    public function __toString(): string
     {
-        return $this->inscriptions;
+        return $this->prenom.' '. $this->nom;
     }
 
-    public function addInscription(Inscrire $inscription): static
+    /**
+     * @return Collection<int, Session>
+     */
+    public function getSessions(): Collection
     {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-            $inscription->setStagiaire($this);
+        return $this->sessions;
+    }
+
+    public function addSession(Session $session): static
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->addStagiaire($this);
         }
 
         return $this;
     }
 
-    public function removeInscription(Inscrire $inscription): static
+    public function removeSession(Session $session): static
     {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getStagiaire() === $this) {
-                $inscription->setStagiaire(null);
-            }
+        if ($this->sessions->removeElement($session)) {
+            $session->removeStagiaire($this);
         }
 
         return $this;

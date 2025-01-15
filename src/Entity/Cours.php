@@ -20,7 +20,7 @@ class Cours
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Categorie $id_categorie = null;
+    private ?Categorie $categorie = null;
 
     /**
      * @var Collection<int, Programme>
@@ -50,14 +50,14 @@ class Cours
         return $this;
     }
 
-    public function getIdCategorie(): ?Categorie
+    public function getCategorie(): ?Categorie
     {
-        return $this->id_categorie;
+        return $this->categorie;
     }
 
-    public function setIdCategorie(?Categorie $id_categorie): static
+    public function setCategorie(?Categorie $categorie): static
     {
-        $this->id_categorie = $id_categorie;
+        $this->categorie = $categorie;
 
         return $this;
     }

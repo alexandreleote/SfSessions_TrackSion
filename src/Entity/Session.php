@@ -31,11 +31,6 @@ class Session
     #[ORM\Column(type: Types::TEXT)]
     private ?string $detailProgramme = null;
 
-    /**
-     * @var Collection<int, Inscrire>
-     */
-    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'session')]
-    private Collection $inscriptions;
 
     /**
      * @var Collection<int, Programme>
@@ -43,10 +38,22 @@ class Session
     #[ORM\OneToMany(targetEntity: Programme::class, mappedBy: 'session')]
     private Collection $programmes;
 
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    private ?Professeur $professeur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    private ?Formation $formation = null;
+
+    /**
+     * @var Collection<int, Stagiaire>
+     */
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, inversedBy: 'sessions')]
+    private Collection $stagiaires;
+
     public function __construct()
     {
-        $this->inscriptions = new ArrayCollection();
         $this->programmes = new ArrayCollection();
+        $this->stagiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,7 +111,7 @@ class Session
 
     public function getNbPlacesRestantes(): int
     {
-        return $this->nbPlacesTotal - $this->inscriptions->count();
+        return $this->nbPlacesTotal - $this->stagiaires->count();
     }
 
     public function getDetailProgramme(): ?string
@@ -119,36 +126,7 @@ class Session
         return $this;
     }
 
-    /**
-     * @return Collection<int, Inscrire>
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Inscrire $inscription): static
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-            $inscription->setSession($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscription(Inscrire $inscription): static
-    {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getSession() === $this) {
-                $inscription->setSession(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Programme>
      */
@@ -177,5 +155,58 @@ class Session
         }
 
         return $this;
+    }
+
+    public function getProfesseur(): ?Professeur
+    {
+        return $this->professeur;
+    }
+
+    public function setProfesseur(?Professeur $professeur): static
+    {
+        $this->professeur = $professeur;
+
+        return $this;
+    }
+
+    public function getFormation(): ?Formation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?Formation $formation): static
+    {
+        $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stagiaire>
+     */
+    public function getStagiaires(): Collection
+    {
+        return $this->stagiaires;
+    }
+
+    public function addStagiaire(Stagiaire $stagiaire): static
+    {
+        if (!$this->stagiaires->contains($stagiaire)) {
+            $this->stagiaires->add($stagiaire);
+        }
+
+        return $this;
+    }
+
+    public function removeStagiaire(Stagiaire $stagiaire): static
+    {
+        $this->stagiaires->removeElement($stagiaire);
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->dateDebut->format('d/m/Y').' - '.$this->dateFin->format('d/m/Y');
     }
 }

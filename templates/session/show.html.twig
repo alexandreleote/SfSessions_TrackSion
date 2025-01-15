@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - {{ session.formation.intitule }} {% endblock %}
+
+{% block header %}
+    <h1>{{ session.formation.intitule }}</h1>
+{% endblock %}
+
+
+{% block body %}
+
+<article class="session-index">
+
+    <header class="session-index-title">
+        <h2>{{ session.intitule }}</h2>
+        <hr class="title-line">
+    </header>
+
+    <section class="">
+
+        <div class="">
+                
+                <div class="">
+                    <aside class="">
+                        <p>Référent : <a href="">{{ session.professeur }}</a></p>
+                        <div class="">
+                            <p>Dates : <span>{{ session }}</span></p>
+                            <a href=""><i class="fa-regular fa-calendar"></i></a>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="">
+                    <div>
+                        <h3>Programme</h3>
+                        <button>
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    {% for cours in session.programmes %}
+                        <div>
+                            <h4>{{ cours }}</h4>
+                            <div>
+                                <span>{{ cours.duree }} jours</span>
+                                <button><i class="fa-solid fa-trash"></i></button>
+                                <button><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="">
+                    <div>
+                        <div>
+                            <h3>Stagiaires</h3>
+                            <div>
+                                <p><span>{{ session.nbPlacesRestantes }}</span>/{{ session.nbPlacesTotal }}</p>
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>  
+                        <button>
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    
+                    {% for stagiaire in session.stagiaires %}
+                        <div>
+                            <a href="#">{{ stagiaire.initiales }}</a>
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+            
+        </div>
+    </section>
+
+</article>
+
+{% endblock %}
