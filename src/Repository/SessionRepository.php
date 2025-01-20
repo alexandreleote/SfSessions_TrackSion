@@ -71,6 +71,32 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findNonProgrammes($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('c')
+           ->from('App\Entity\Cours', 'c')
+           ->leftJoin('c.programmes', 'p')
+           ->leftJoin('p.session', 'se')
+           ->where('se.id = :id');
+        
+        $sub = $em->createQueryBuilder();
+
+        $sub->select('co')
+            ->from('App\Entity\Cours', 'co')
+            ->where($sub->expr()->notIn('co.id', $qb->getDQL()))
+            ->setParameter('id', $session_id)
+            ->orderBy('co.intitule');
+        
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

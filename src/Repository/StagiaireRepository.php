@@ -15,7 +15,6 @@ class StagiaireRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Stagiaire::class);
     }
-
 //    /**
 //     * @return Stagiaire[] Returns an array of Stagiaire objects
 //     */

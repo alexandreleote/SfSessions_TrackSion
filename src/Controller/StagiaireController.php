@@ -27,7 +27,7 @@ final class StagiaireController extends AbstractController{
         ]);
     }
 
-    #[Route('/stagiaire/add', name: 'add_stagiaire_route', methods: ['POST'])]
+    #[Route('/stagiaire/add', name: 'add_stagiaire')]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $stagiaireId = $request->request->get('stagiaire_id');
@@ -43,6 +43,31 @@ final class StagiaireController extends AbstractController{
 
             return $this->redirectToRoute('show_session', ['id' => $sessionId]);
         }
+
+        return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+    }
+
+    #[Route('/stagiaire/remove', name:'remove_stagiaire')]
+    public function remove(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Debug pour voir les valeurs reçues
+        $stagiaireId = $request->request->get('stagiaire_id');
+        $sessionId = $request->request->get('session_id');
+        
+        // Vérification que les IDs ne sont pas null
+        if (!$stagiaireId || !$sessionId) {
+            return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+        }
+
+        $stagiaire = $entityManager->getRepository(Stagiaire::class)->find($stagiaireId);
+        $session = $entityManager->getRepository(Session::class)->find($sessionId);
+
+        if ($stagiaire && $session) {
+            $session->removeStagiaire($stagiaire);
+            $entityManager->persist($session);
+            $entityManager->flush();
+            
+        } 
 
         return $this->redirectToRoute('show_session', ['id' => $sessionId]);
     }
