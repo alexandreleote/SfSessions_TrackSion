@@ -109,9 +109,9 @@ class Session
         return $this;
     }
 
-    public function getNbPlacesRestantes(): int
+    public function getNbPlacesReservees(): int
     {
-        return $this->nbPlacesTotal - $this->stagiaires->count();
+        return $this->stagiaires->count();
     }
 
     public function getDetailProgramme(): ?string

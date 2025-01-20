@@ -47,6 +47,30 @@ class SessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findNonInscrits($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('s')
+           ->from('App\Entity\Stagiaire','s')
+           ->leftJoin('s.sessions','se')
+           ->where('se.id = :id');
+        
+        $sub = $em->createQueryBuilder();
+
+        $sub->select('st')
+            ->from('App\Entity\Stagiaire','st')
+            ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+            ->setParameter('id', $session_id)
+            ->orderBy('st.nom');
+        
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

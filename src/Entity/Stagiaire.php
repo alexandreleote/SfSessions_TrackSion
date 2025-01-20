@@ -40,7 +40,7 @@ class Stagiaire
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'stagiaire')]
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'stagiaires')]
     private Collection $sessions;
 
     public function __construct()
@@ -55,7 +55,7 @@ class Stagiaire
 
     public function getNom(): ?string
     {
-        return $this->nom;
+        return ucfirst($this->nom);
     }
 
     public function setNom(string $nom): static
@@ -67,7 +67,7 @@ class Stagiaire
 
     public function getPrenom(): ?string
     {
-        return $this->prenom;
+        return ucfirst($this->prenom);
     }
 
     public function setPrenom(string $prenom): static
@@ -77,9 +77,9 @@ class Stagiaire
         return $this;
     }
 
-    public function getInitiales(): string
+    public function getInitiales(): ?string
     {
-        return mb_substr($this->prenom, 0, 1). '. '. mb_substr($this->nom, 0, 1);
+        return mb_substr($this->prenom, 0, 1). ''. mb_substr($this->nom, 0, 1);
     }
 
 
@@ -95,6 +95,11 @@ class Stagiaire
         return $this;
     }
 
+    public function getCivilite(): ?string
+    {
+        return ($this->genre === 'Homme'? 'Monsieur' : 'Madame');
+    }
+
     public function getDateNaissance(): ?\DateTimeInterface
     {
         return $this->dateNaissance;
@@ -105,6 +110,11 @@ class Stagiaire
         $this->dateNaissance = $dateNaissance;
 
         return $this;
+    }
+
+    public function getAge(): ?string
+    {
+        return $this->dateNaissance?->diff(new \DateTime())->y.' ans';
     }
 
     public function getVille(): ?string
