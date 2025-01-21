@@ -3,27 +3,27 @@
 {% block title %}TrackSion - {{ session.formation.intitule }} {% endblock %}
 
 {% block header %}
-    <h1>{{ session.formation.intitule }}</h1>
+    <h1><span class="title-default">{{ session.formation.intitule }}</span></h1>
 {% endblock %}
 
 
 {% block body %}
 
-<article class="session-index">
+<article class="index-main-container">
 
-    <header class="session-index-title">
+    <header class="index-main-header">
         <h2>{{ session.intitule }}</h2>
         <hr class="title-line">
     </header>
 
-    <section class="">
+    <section class="session-details-section">
 
-        <div class="">
+        <div class="session-main-content">
                 
-                <div class="">
-                    <aside class="">
+                <div>
+                    <aside class="session-infos-aside">
                         <p>Référent : <a href="">{{ session.professeur }}</a></p>
-                        <div class="">
+                        <div class="session-dates">
                             <p>Dates : <span>{{ session }}</span></p>
                             <a href=""><i class="fa-regular fa-calendar"></i></a>
                         </div>
@@ -31,25 +31,25 @@
                 </div>
 
                 {# Section Programmes #}
-                <div class="section-programme">
-                    <div class="section-header-display">
+                <div class="session-programmes-section">
+                    <div class="session-prog-header">
                         <h3>Programme</h3>
-                        <button data-modal-target="modal-add-programme">
+                        <button class="btn-plus" data-modal-target="modal-add-programme">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
                     
                     {% for cours in session.programmes %}
-                        <div class="session-info">
-                            <div class="session-class">
+                        <div class="session-prog-content">
+                            <div class="session-prog-item">
                                 <h4>{{ cours }}</h4>
-                                <div>
+                                <div class="session-prog-infos">
                                     <span>{{ cours.duree }} jours</span>
                                     <form action="{{ path('remove_cours') }}" method="post">
                                         <input type="hidden" name="programme_id" value="{{ cours.id }}">
-                                        <button type="submit" class="btn-desinscrire"><i class="fa-solid fa-trash"></i></button>
+                                        <button type="submit" class="btn-trash"><i class="fa-solid fa-trash"></i></button>
                                     </form>
-                                    <button><i class="fa-solid fa-chevron-right"></i></button>
+                                    <button class="btn-session"><i class="fa-solid fa-chevron-right"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -74,6 +74,7 @@
                                     <input type="hidden" name="session_id" value="{{ session.id }}">
                                     <button type="submit">Ajouter</button>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>
@@ -81,10 +82,10 @@
                 </div>
                 
                 {# Section Stagiaires #}
-                <div class="">
+                <div class="session-stud-section">
                     <div class="">
                         <h3>Stagiaires</h3>
-                        <div class="">
+                        <div class="session-stud-infos">
                             <p><span>{{ session.nbPlacesReservees }}</span>/{{ session.nbPlacesTotal }}</p>
                             <i class="fa-solid fa-users"></i>
                             <p>stagiaires inscrits</p>
@@ -92,7 +93,7 @@
                     </div>  
                     {% if session.nbPlacesReservees < session.nbPlacesTotal %}
                         <div>
-                            <button data-modal-target="modal-add-stagiaire">
+                            <button class="btn-plus" data-modal-target="modal-add-stagiaire">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>                            
@@ -112,7 +113,7 @@
                         <div class="modal-body">
                             <form action="{{ path('add_stagiaire') }}" method="post">
                                 <label for="stagiaire-name">Nom du stagiaire:</label>
-                                <select name="stagiaire_id" id="stagiaire-name">
+                                <select name="stagiaire_id[]" id="stagiaire-name" multiple>
                                     {% for stagiaireNI in nonInscrits %}
                                         <option value="{{ stagiaireNI.id }}">{{ stagiaireNI.nom }} {{stagiaireNI.prenom }}</option>
                                     {% endfor %}

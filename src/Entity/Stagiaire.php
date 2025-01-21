@@ -37,6 +37,8 @@ class Stagiaire
     #[ORM\Column(length: 50)]
     private ?string $phone = null;
 
+    private ?string $identity = null;
+
     /**
      * @var Collection<int, Session>
      */
@@ -47,6 +49,12 @@ class Stagiaire
     {
         $this->sessions = new ArrayCollection();
     }
+
+    public function getIdentity(): ?string
+    {
+        return $this->nom.' '. $this->prenom;
+    }
+    
 
     public function getId(): ?int
     {

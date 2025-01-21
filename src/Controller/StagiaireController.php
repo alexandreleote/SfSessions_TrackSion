@@ -30,20 +30,27 @@ final class StagiaireController extends AbstractController{
     #[Route('/stagiaire/add', name: 'add_stagiaire')]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $stagiaireId = $request->request->get('stagiaire_id');
+        $stagiaireIds = $request->request->all('stagiaire_id');
         $sessionId = $request->request->get('session_id');
 
-        $stagiaire = $entityManager->getRepository(Stagiaire::class)->find($stagiaireId);
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
 
-        if ($stagiaire && $session) {
-            $session->addStagiaire($stagiaire);
+        if(is_array($stagiaireIds) < count($session->getNbPlacesTotal)) {
+        if ($session && is_array($stagiaireIds)) {
+            foreach ($stagiaireIds as $stagiaireId) {
+                $stagiaire = $entityManager->getRepository(Stagiaire::class)->find($stagiaireId);
+                if ($stagiaire) {
+                    $session->addStagiaire($stagiaire);
+                }
+            }
             $entityManager->persist($session);
             $entityManager->flush();
 
             return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+        }} else {
+            $this->addFlash('error', 'Plus de places disponibles pour cette session.');
+            return $this->redirectToRoute('show_session', ['id' => $sessionId]);
         }
-
         return $this->redirectToRoute('show_session', ['id' => $sessionId]);
     }
 
