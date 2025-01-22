@@ -37,6 +37,7 @@
     /* Backgrounds */
     --bg-purple: #7678ed80;
     --bg-orange: #f35b0440;
+    --bg-gray: #46464640;
 
     /* Transitions */
     --transition-duration: .55s ease-in-out;
@@ -457,6 +458,78 @@ main {
 .session-stud-section {
     display: flex;
     justify-content: space-between;
+}
+.session-stud-header {
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    & .session-stud-infos {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        font-size: 14px;
+    }
+}
+
+.session-stud-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.btn-stagiaire,
+.btn-plus-stagiaire {
+
+    padding: 25px;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-white);
+    border: none;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    transition: all var(--transition-quick-duration);
+
+    &:active {
+        transform: scale(0.9);
+    }
+}
+
+.btn-stagiaire {
+
+    background-color: var(--primary-purple);
+
+    &:hover {
+        background-color: var(--primary-violet);
+    }
+}
+
+.btn-plus-stagiaire {
+
+    background-color: var(--bg-gray);
+
+    &:hover {
+
+        background-color: var(--bg-orange);
+        color: var(--primary-dark-orange);
+    }
+}
+
+.btn-disabled {
+    background-color: var(--bg-gray);
+    color: var(--primary-gray);
+    cursor: not-allowed;
+
+    &:hover {
+        background-color: var(--bg-gray);
+        color: var(--primary-gray);
+    }
+
+    &:active {
+        transform: scale(1);
+    }
 }
 
 /* Modals */

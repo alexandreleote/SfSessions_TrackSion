@@ -65,7 +65,8 @@ class SessionRepository extends ServiceEntityRepository
             ->from('App\Entity\Stagiaire','st')
             ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
             ->setParameter('id', $session_id)
-            ->orderBy('st.nom');
+            ->orderBy('st.nom', 'ASC')
+            ->addOrderBy('st.prenom', 'ASC');
         
         $query = $sub->getQuery();
         return $query->getResult();
@@ -95,7 +96,6 @@ class SessionRepository extends ServiceEntityRepository
         $query = $sub->getQuery();
         return $query->getResult();
     }
-
 
 //    /**
 //     * @return Session[] Returns an array of Session objects

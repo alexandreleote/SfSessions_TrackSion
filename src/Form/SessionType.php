@@ -20,7 +20,9 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('intitule', TextType::class)
+            ->add('intitule', TextType::class, [
+                'label' => 'Intitulé de la session',
+            ])
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text'
             ])
@@ -40,11 +42,6 @@ class SessionType extends AbstractType
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
                 'choice_label' => 'intitule',
-            ])
-            ->add('stagiaires', EntityType::class, [
-                'class' => Stagiaire::class,
-                'choice_label' => 'identity',
-                'multiple' => true,
             ])
             ->add('valider', SubmitType::class, [
                 'label' => 'Valider le formulaire'

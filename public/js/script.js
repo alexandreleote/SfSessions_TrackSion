@@ -7,11 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('scrolled');
         }
     });
-});
 
-/* Modal */
-// Attendre que le DOM soit chargé
-document.addEventListener('DOMContentLoaded', function() {
+    /* Modal */
     // Sélectionner tous les boutons qui ouvrent une modal
     const modalButtons = document.querySelectorAll('[data-modal-target]');
     

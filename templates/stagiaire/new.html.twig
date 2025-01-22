@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - Liste des stagiaires{% endblock %}
+
+{% block header %}
+    <h1><span class="title-default">Créer une nouvelle fiche stagiaire</span></h1>
+{% endblock %}
+
+{% block body %}
+    
+    {% if edit %}
+            
+        <h1>Editer un stagiaire</h1> 
+
+    {% else %}
+
+        <h1>Créer un nouveau stagiaire</h1>
+
+    {% endif %}
+
+    {# {{ form(formAddEntreprise) }} #}
+
+    {{ form_start(formNewStagiaire) }}
+        {{ form_row(formNewStagiaire.genre) }}  
+
+        <div>
+            {{ form_row(formNewStagiaire.nom) }}
+            {{ form_row(formNewStagiaire.prenom) }}
+        </div>
+
+        <div>
+            {{ form_row(formNewStagiaire.dateNaissance) }}
+            {{ form_row(formNewStagiaire.ville) }}
+        </div>
+
+        <div>
+            {{ form_row(formNewStagiaire.email) }}
+            {{ form_row(formNewStagiaire.phone) }}
+        </div>
+
+        {{ form_row(formNewStagiaire.valider) }}
+    {{ form_end(formNewStagiaire) }}
+        
+{% endblock %}

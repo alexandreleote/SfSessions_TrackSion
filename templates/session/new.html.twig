@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - Nouvelle session{% endblock %}
+
+{% block header %}
+    <h1 class="title-default">Créer une nouvelle session</h1>
+{% endblock %}
+
+
+{% block body %}
+
+    {% if edit %}
+        
+        <h1>Editer une session</h1>
+
+    {% else %}
+
+     <h1>Ajouter une session</h1>
+
+    {% endif %}
+
+        {# {{ form(formAddEntreprise) }} #}
+
+    {{ form_start(formNewSession) }}
+        {{ form_row(formNewSession.formation) }}  
+
+        {{ form_row(formNewSession.professeur) }}
+
+        <div>
+            {{ form_row(formNewSession.intitule) }}
+            {{ form_row(formNewSession.detailProgramme) }}
+        </div>
+        
+        <div>
+            {{ form_row(formNewSession.dateDebut) }}
+            {{ form_row(formNewSession.dateFin) }}
+        </div>
+
+        {{ form_row(formNewSession.nbPlacesTotal) }}
+        
+        {{ form_row(formNewSession.valider) }}
+    {{ form_end(formNewSession) }}
+
+
+{% endblock %}
