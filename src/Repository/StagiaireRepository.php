@@ -15,6 +15,14 @@ class StagiaireRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Stagiaire::class);
     }
+
+    public function findAllOrderedByName()
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Stagiaire[] Returns an array of Stagiaire objects
 //     */

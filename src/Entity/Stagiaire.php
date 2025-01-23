@@ -120,6 +120,12 @@ class Stagiaire
         return $this;
     }
 
+    public function getDateNaissanceFormat(): ?string
+    {
+        return $this->dateNaissance?->format('d/m/Y');
+    }
+
+
     public function getAge(): ?string
     {
         return $this->dateNaissance?->diff(new \DateTime())->y.' ans';

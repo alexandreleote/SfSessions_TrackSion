@@ -17,9 +17,7 @@
     </header>
 
     <section class="session-details-section">
-
         <div class="session-main-content">
-                
                 <div>
                     <aside class="session-infos-aside">
                         <p>Référent : <a href="">{{ session.professeur }}</a></p>
@@ -144,7 +142,7 @@
                 <div id="overlay"></div>
 
                 <div class="session-stud-content">
-                    {% for stagiaire in session.stagiaires %}
+                    {% for stagiaire in stagiaires %}
                         <button class="btn-stagiaire" data-modal-target="modal-{{ stagiaire.id }}">
                             {{ stagiaire.initiales }}
                         </button>

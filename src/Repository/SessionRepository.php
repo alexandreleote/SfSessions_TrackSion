@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Session;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Stagiaire;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Session>
@@ -97,6 +98,42 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findCurrentSessionsByStudent(Stagiaire $stagiaire): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateDebut <= :now')
+            ->andWhere('s.dateFin >= :now')
+            ->andWhere(':stagiaire MEMBER OF s.stagiaires')
+            ->setParameter('now', new \DateTime())
+            ->setParameter('stagiaire', $stagiaire)
+            ->orderBy('s.dateDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findNextSessionsByStudent(Stagiaire $stagiaire): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateDebut > :now')
+            ->andWhere(':stagiaire MEMBER OF s.stagiaires')
+            ->setParameter('now', new \DateTime())
+            ->setParameter('stagiaire', $stagiaire)
+            ->orderBy('s.dateDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPastSessionsByStudent(Stagiaire $stagiaire): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateFin < :now')
+            ->andWhere(':stagiaire MEMBER OF s.stagiaires')
+            ->setParameter('now', new \DateTime())
+            ->setParameter('stagiaire', $stagiaire)
+            ->orderBy('s.dateDebut', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

@@ -114,16 +114,25 @@ final class StagiaireController extends AbstractController{
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+        // Get the referer path
+        $referer = $request->headers->get('referer');
+        $path = parse_url($referer, PHP_URL_PATH);
+        $firstSegment = explode('/', trim($path, '/'))[0];
+
+        // Return based on source path
+        return match($firstSegment) {
+            'stagiaire' => $this->redirectToRoute('show_stagiaire', ['id' => $stagiaireId]),
+            'session' => $this->redirectToRoute('show_session', ['id' => $sessionId]),
+            default => $this->redirectToRoute('show_session', ['id' => $sessionId])
+        };
     }
 
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
     public function show(Stagiaire $stagiaire, SessionRepository $sr): Response
     {
-
-        $currentSessions = $sr->findByCurrentSessions();
-        $nextSessions = $sr->findByNextSessions();
-        $pastSessions = $sr->findByPastSessions();
+        $currentSessions = $sr->findCurrentSessionsByStudent($stagiaire);
+        $nextSessions = $sr->findNextSessionsByStudent($stagiaire);
+        $pastSessions = $sr->findPastSessionsByStudent($stagiaire);
 
         return $this->render('stagiaire/show.html.twig', [
             'stagiaire' => $stagiaire,

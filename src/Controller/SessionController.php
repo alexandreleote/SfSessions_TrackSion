@@ -107,6 +107,13 @@ final class SessionController extends AbstractController{
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session, SessionRepository $sessionRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        // Récupérer les stagiaires de la session et les trier
+        $stagiaires = $session->getStagiaires()->toArray();
+        usort($stagiaires, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+
         $nonInscrits = $sessionRepository->findNonInscrits($session->getId());
         $nonProgrammes = $sessionRepository->findNonProgrammes($session);
     
@@ -128,6 +135,7 @@ final class SessionController extends AbstractController{
 
         return $this->render('session/show.html.twig', [
             'session' => $session,
+            'stagiaires' => $stagiaires,
             'formProgramme' => $form->createView(),
             'nonProgrammes' => $nonProgrammes,
             'nonInscrits' => $nonInscrits,
