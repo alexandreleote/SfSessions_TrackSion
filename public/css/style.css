@@ -584,6 +584,30 @@ main {
     color: #f35b04;
 }
 
+.programmes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.programme-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: var(--bg-gray);
+    border-radius: var(--border-radius-extra-large);
+
+    & .programme-flex {
+        display: flex;
+        font-weight: var(--font-weight-medium);
+        gap: 10px;
+    }
+}
+
+
+
 /* Style pour les boutons */
 .modal-footer {
     display: flex;
@@ -609,6 +633,24 @@ main {
     border: 1px solid #ccc;
 }
 
+.btn-delete {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all var(--transition-quick-duration);
+    color: var(--primary-purple);
+    background-color: var(--bg-purple);
+
+    &:hover {
+        color: var(--primary-dark-orange);
+        background-color: var(--bg-orange);
+    }
+
+    &:active {
+        transform: scale(0.8);
+    }
+}
 
 #overlay {
     position: fixed;

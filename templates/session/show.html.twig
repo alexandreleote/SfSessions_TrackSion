@@ -61,17 +61,20 @@
                                 <h2>Ajouter un nouveau cours</h2>
                             </div>
                             <div class="modal-body">
-                                {% if nonProgrammes is defined %}
-                                    {% for cours in nonProgrammes %}
-                                        <form action="{{ path('add_cours', {'session': session.id, 'cours': cours.id}) }}" method="POST">
-                                            <div>
-                                                <label>{{ cours.intitule }}</label>
-                                                <input type="number" name="duree" placeholder="Durée (jours)" min="1" max="365" required>
-                                                <button type="submit">Ajouter</button>
+                                {{ form_start(formProgramme) }}
+                                    <div class="programmes"
+                                         data-prototype="{{ form_widget(formProgramme.programmes.vars.prototype)|e('html_attr') }}">
+                                        {% for programmeForm in formProgramme.programmes %}
+                                            <div class="programme-item">
+                                                {{ form_row(programmeForm.cours) }}
+                                                {{ form_row(programmeForm.duree) }}
+                                                <button type="button" class="btn-delete"><i class="fa-solid fa-xmark"></i></button>
                                             </div>
-                                        </form>
-                                    {% endfor %}
-                                {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="btn btn-primary add-programme"><i class="fa-solid fa-plus"></i></button>
+                                    {{ form_widget(formProgramme.valider, {'attr': {'class': 'btn btn-success'}}) }}
+                                {{ form_end(formProgramme) }}
                             </div>
                         </div>
                     </div>

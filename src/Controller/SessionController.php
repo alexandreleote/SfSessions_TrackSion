@@ -8,6 +8,7 @@ use App\Form\CoursType;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
+use App\Form\ProgrammeType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,19 +105,33 @@ final class SessionController extends AbstractController{
     }
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session = null, SessionRepository $sr, Request $request): Response
+    public function show(Session $session, SessionRepository $sessionRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!$session) {
-            return $this->redirectToRoute('app_session');
+        $nonInscrits = $sessionRepository->findNonInscrits($session->getId());
+        $nonProgrammes = $sessionRepository->findNonProgrammes($session);
+    
+        $form = $this->createForm(ProgrammeType::class, null, [
+            'nonProgrammes' => $nonProgrammes
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $programmes = $form->getData()['programmes'];
+            foreach ($programmes as $programme) {
+                $programme->setSession($session);
+                $entityManager->persist($programme);
+            }
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
         }
 
-        $nonInscrits = $sr->findNonInscrits($session->getId());
-        $nonProgrammes = $sr->findNonProgrammes($session->getId());
-        
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'nonInscrits' => $nonInscrits,
+            'formProgramme' => $form->createView(),
             'nonProgrammes' => $nonProgrammes,
+            'nonInscrits' => $nonInscrits,
         ]);
     }
+    
 }
