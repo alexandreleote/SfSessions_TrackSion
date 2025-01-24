@@ -2,10 +2,6 @@
 
 {% block title %}TrackSion - {{ session.formation.intitule }} {% endblock %}
 
-{% block header %}
-    <h1><span class="title-default">{{ session.formation.intitule }}</span></h1>
-{% endblock %}
-
 
 {% block body %}
 
@@ -43,7 +39,7 @@
                                 <h4>{{ programme.cours.intitule }}</h4>
                                 <div class="session-prog-infos">
                                     <span>{{ programme.duree }} jours</span>
-                                    <form action="{{ path('remove_cours', {'session': session.id, 'cours': programme.cours.id}) }}" method="post">
+                                    <form action="{{ path('cours_remove', {'session': session.id, 'cours': programme.cours.id}) }}" method="post">
                                         <button type="submit" class="btn-trash"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                     <button class="btn-session"><i class="fa-solid fa-chevron-right"></i></button>
@@ -110,7 +106,7 @@
                         </div>
                         <div class="modal-body">
                             {% if nonInscrits is defined and nonInscrits|length > 0 %}
-                                <form action="{{ path('add_stagiaire', {'sessionId': session.id}) }}" method="POST">
+                                <form action="{{ path('stagiaire_add', {'sessionId': session.id}) }}" method="POST">
                                     <div class="stagiaires-list">
                                         {% set placesRestantes = session.nbPlacesTotal - session.nbPlacesReservees %}
                                         {% for stagiaire in nonInscrits %}
@@ -173,7 +169,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <form action="{{ path('remove_stagiaire', {'sessionId': session.id}) }}" method="post">
+                                        <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post">
                                             <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
                                             <input type="hidden" name="session_id" value="{{ session.id }}">
                                             <button type="submit" class="btn-desinscrire">Désinscrire</button>

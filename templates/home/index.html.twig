@@ -2,11 +2,6 @@
 
 {% block title %}TrackSion - Home{% endblock %}
 
-{% block header %}
-    <a href={{ path('app_home')}}><h1><span class="title-pre">Track</span><span class="title-post">Sion</span></h1></a>
-{% endblock %}
-
-
 {% block body %}
 
     <article class="home-index-container">
@@ -32,7 +27,7 @@
                             <p><span>Dates : </span>{{ currentSession}}</p>
                             <p><span>Référent : </span><a href="">{{ currentSession.professeur }}</a></p>
                         </aside>
-                        <a class="link" href="{{ path('show_session', {'id' : currentSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                        <a class="link" href="{{ path('session_show', {'id' : currentSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
                     </div>
                 
                 {% endfor %}
@@ -53,7 +48,7 @@
                             <p><span>Dates : </span>{{ nextSession}}</p>
                             <p><span>Référent : </span><a href="">{{ nextSession.professeur }}</a></p>
                         </aside>
-                        <a class="link" href="{{ path('show_session', {'id' : nextSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                        <a class="link" href="{{ path('session_show', {'id' : nextSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
                     </div>
                 
                 {% endfor %}
@@ -74,7 +69,7 @@
                             <p><span>Dates : </span>{{ pastSession}}</p>
                             <p><span>Référent : </span><a href="">{{ pastSession.professeur }}</a></p>
                         </aside>
-                        <a class="link" href="{{ path('show_session', {'id' : pastSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                        <a class="link" href="{{ path('session_show', {'id' : pastSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
                     </div>
                 
                 {% endfor %}

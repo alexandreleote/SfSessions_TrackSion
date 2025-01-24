@@ -2,9 +2,6 @@
 
 {% block title %}TrackSion - Liste des stagiaires{% endblock %}
 
-{% block header %}
-    <a href={{ path('app_home')}}><h1><span class="title-pre">Track</span><span class="title-post">Sion</span></h1></a>
-{% endblock %}
 
 {% block body %}
 
@@ -28,15 +25,15 @@
                     <td>{{ stagiaire.initiales }}</td>
                     <td>{{ stagiaire.ville }}</td>
                     <td>
-                        <a href="{{ path('show_stagiaire', {'id': stagiaire.id}) }}">Voir</a>
-                        <a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Editer</a>
-                        <a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}">Supprimer</a>
+                        <a href="{{ path('stagiaire_show', {'id': stagiaire.id}) }}">Voir</a>
+                        <a href="{{ path('stagiaire_edit', {'id': stagiaire.id}) }}">Editer</a>
+                        <a href="{{ path('stagiaire_delete', {'id': stagiaire.id}) }}">Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('new_stagiaire') }}">Ajouter un stagiaire</a>
+    <a href="{{ path('stagiaire_new') }}">Ajouter un stagiaire</a>
 
 {% endblock %}

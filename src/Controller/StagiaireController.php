@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class StagiaireController extends AbstractController{
-    #[Route('/stagiaire', name: 'app_stagiaire')]
+    #[Route('/stagiaire', name: 'stagiaire_index')]
     public function index(StagiaireRepository $sr,): Response
     {
 
@@ -25,8 +25,8 @@ final class StagiaireController extends AbstractController{
         ]);
     }
 
-    #[Route('/stagiaire/new', name: 'new_stagiaire')]
-    #[Route('/stagiaire/{id}/edit', name: 'edit_stagiaire')]
+    #[Route('/stagiaire/new', name: 'stagiaire_new')]
+    #[Route('/stagiaire/{id}/edit', name: 'stagiaire_edit')]
     public function new_edit(Stagiaire $stagiaire = null, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -45,7 +45,7 @@ final class StagiaireController extends AbstractController{
             $entityManager->persist($stagiaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_stagiaire', ['id' => $stagiaire->getId()]);
+            return $this->redirectToRoute('stagiaire_show', ['id' => $stagiaire->getId()]);
         }
             
         return $this->render('stagiaire/new.html.twig', [
@@ -55,7 +55,7 @@ final class StagiaireController extends AbstractController{
         ]);
     }
 
-    #[Route('/stagiaire/{id}/delete', name: 'delete_stagiaire')]
+    #[Route('/stagiaire/{id}/delete', name: 'stagiaire_delete')]
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($stagiaire);
@@ -64,7 +64,7 @@ final class StagiaireController extends AbstractController{
         return $this->redirectToRoute('app_stagiaire');
     }
 
-    #[Route('/stagiaire/add/{sessionId}', name: 'add_stagiaire')]
+    #[Route('/stagiaire/add/{sessionId}', name: 'stagiaire_add')]
     public function add(int $sessionId, EntityManagerInterface $entityManager, Request $request): Response
     {
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
@@ -95,7 +95,7 @@ final class StagiaireController extends AbstractController{
         return $this->redirectToRoute('show_session', ['id' => $sessionId]);
     }
 
-    #[Route('/stagiaire/remove/{sessionId}', name: 'remove_stagiaire')]
+    #[Route('/stagiaire/remove/{sessionId}', name: 'stagiaire_remove')]
     public function remove(int $sessionId, EntityManagerInterface $entityManager, Request $request): Response
     {
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
@@ -121,13 +121,13 @@ final class StagiaireController extends AbstractController{
 
         // Return based on source path
         return match($firstSegment) {
-            'stagiaire' => $this->redirectToRoute('show_stagiaire', ['id' => $stagiaireId]),
-            'session' => $this->redirectToRoute('show_session', ['id' => $sessionId]),
-            default => $this->redirectToRoute('show_session', ['id' => $sessionId])
+            'stagiaire' => $this->redirectToRoute('stagiaire_show', ['id' => $stagiaireId]),
+            'session' => $this->redirectToRoute('session_show', ['id' => $sessionId]),
+            default => $this->redirectToRoute('session_show', ['id' => $sessionId])
         };
     }
 
-    #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
+    #[Route('/stagiaire/{id}', name: 'stagiaire_show')]
     public function show(Stagiaire $stagiaire, SessionRepository $sr): Response
     {
         $currentSessions = $sr->findCurrentSessionsByStudent($stagiaire);

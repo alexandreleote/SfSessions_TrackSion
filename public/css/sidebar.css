@@ -1,0 +1,43 @@
+/* Overall */
+#sidebar {
+    padding: var(--small-space) var(--large-space) 0;
+}
+
+/* Sidebar Container */
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 100vh;
+    
+    & .oauth-container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-top: auto;
+        bottom: 25px;
+    }
+}
+
+.navbar-item {
+    color: var(--text-gray);
+    transition: all var(--quick) ease-in-out;
+}
+
+.navbar-item:hover {
+    color: var(--text-bright);
+    transform: translateX(10px);
+}
+
+.active {
+    color: var(--text-white);
+}
+
+/* OAuth Container */
+
+
+/* Navbar-Footer */
+.footer > p {
+    font-size: var(--extra-small);
+    color: var(--text-gray);
+}

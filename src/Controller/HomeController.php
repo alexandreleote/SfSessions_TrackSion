@@ -9,7 +9,7 @@ use App\Repository\SessionRepository;
 
 final class HomeController extends AbstractController{
 
-    #[Route('/home', name: 'app_home')]
+    #[Route('/home', name: 'home_index')]
     public function index(SessionRepository $sessionRepository): Response
     {
         $currentSessions = $sessionRepository->findByCurrentSessions();

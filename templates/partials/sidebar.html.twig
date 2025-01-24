@@ -1,0 +1,43 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+{% endblock %}
+
+{% set route = app.request.get('_route') %}
+
+<nav id="sidebar" class="navbar">
+    <section class="sidebar-container">
+        <header class="header">
+           <a href={{ path('home_index')}}><h1>TrackSion</h1></a>
+        </header>
+
+        <ul class="navbar-list">
+            <li class="navbar-item">
+                <a href={{ path('home_index') }} class={{route starts with 'home' ? 'active'}}>
+                <i class="fa-solid fa-house"></i> Dashboard</a>
+            </li>
+            <li class="navbar-item">
+                <a href={{ path('session_index') }} class={{route starts with 'session' ? 'active'}}>
+                <i class="fa-regular fa-rectangle-list"></i> Sessions</a>
+            </li>
+            <li class="navbar-item">
+                <a href={{ path('stagiaire_index')}} class={{route starts with 'stagiaire' ? 'active'}}>
+                <i class="fa-solid fa-users"></i> Stagiaires</a>
+            </li>
+            <li class="navbar-item">
+                <a href=#><i class="fa-solid fa-user-gear">
+                </i> Paramètres</a>
+            </li>
+        </ul>
+
+        <section class="oauth-container">
+            <div>
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </section>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; {{ "now"|date("Y") }} TrackSion &trade; - by Alexandre Leote</p>
+    </footer>
+</nav>
+

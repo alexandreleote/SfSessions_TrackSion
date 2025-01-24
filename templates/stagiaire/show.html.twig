@@ -2,10 +2,6 @@
 
 {% block title %}TrackSion - Liste des stagiaires{% endblock %}
 
-{% block header %}
-    <h1><span class="title-default">{{ stagiaire.initiales }} - {{ stagiaire.identity }}</span></h1>
-{% endblock %}
-
 {% block body %}
 <article class="index-main-container">
 
@@ -46,8 +42,8 @@
                 <ul>
                     {% for session in currentSessions %}
                         <li class="session-item">
-                            <a href="{{ path('show_session', {'id': session.id}) }}">{{ session.intitule }}</a>
-                            <form action="{{ path('remove_stagiaire', {'sessionId': session.id}) }}" method="post" class="remove-form">
+                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
+                            <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
                                 <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
                                 <input type="hidden" name="referrer" value="show_stagiaire">
                                 <button type="submit" class="btn-trash">
@@ -73,8 +69,8 @@
                 <ul>
                     {% for session in nextSessions %}
                         <li class="session-item">
-                            <a href="{{ path('show_session', {'id': session.id}) }}">{{ session.intitule }}</a>
-                            <form action="{{ path('remove_stagiaire', {'sessionId': session.id}) }}" method="post" class="remove-form">
+                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
+                            <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
                                 <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
                                 <input type="hidden" name="referrer" value="show_stagiaire">
                                 <button type="submit" class="btn-trash">
@@ -99,7 +95,7 @@
                 <ul>
                     {% for session in pastSessions %}
                         <li class="session-item">
-                            <a href="{{ path('show_session', {'id': session.id}) }}">{{ session.intitule }}</a>
+                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
                         </li>
                     {% endfor %}
                 </ul>

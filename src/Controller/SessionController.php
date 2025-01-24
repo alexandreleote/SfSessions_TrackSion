@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 final class SessionController extends AbstractController{
-    #[Route('/session', name: 'app_session')]
+    #[Route('/session', name: 'session_index')]
     public function index(SessionRepository $sessionRepository): Response
     {
         $currentSessions = $sessionRepository->findByCurrentSessions();
@@ -32,8 +32,8 @@ final class SessionController extends AbstractController{
         ]);
     }
 
-    #[Route('/session/new', name: 'new_session')]
-    #[Route('/session/{id}/edit', name: 'edit_session')]
+    #[Route('/session/new', name: 'session_new')]
+    #[Route('/session/{id}/edit', name: 'session_edit')]
     public function new_edit(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -52,7 +52,7 @@ final class SessionController extends AbstractController{
             $entityManager->persist($session);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+            return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
         }
             
         return $this->render('session/new.html.twig', [
@@ -62,7 +62,7 @@ final class SessionController extends AbstractController{
         ]);
     }
 
-    #[Route('/session/{id}/delete', name: 'delete_session')]
+    #[Route('/session/{id}/delete', name: 'session_delete')]
     public function delete(Session $session, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($session);
@@ -71,7 +71,7 @@ final class SessionController extends AbstractController{
         return $this->redirectToRoute('app_session');
     }
 
-    #[Route('/session/{session}/cours/{cours}/add', name: 'add_cours')]
+    #[Route('/session/{session}/cours/{cours}/add', name: 'cours_add')]
     public function addCours(Session $session, Cours $cours, Request $request, EntityManagerInterface $entityManager): Response
     {
         $duree = $request->request->get('duree');
@@ -85,10 +85,10 @@ final class SessionController extends AbstractController{
         $entityManager->persist($programme);
         $entityManager->flush();
         
-        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+        return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
     }
 
-    #[Route('/session/{session}/cours/{cours}/remove', name: 'remove_cours')]
+    #[Route('/session/{session}/cours/{cours}/remove', name: 'cours_remove')]
     public function removeCours(Session $session, Cours $cours, EntityManagerInterface $entityManager): Response
     {
         $programme = $entityManager->getRepository(Programme::class)->findOneBy([
@@ -101,10 +101,10 @@ final class SessionController extends AbstractController{
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+        return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
     }
 
-    #[Route('/session/{id}', name: 'show_session')]
+    #[Route('/session/{id}', name: 'session_show')]
     public function show(Session $session, SessionRepository $sessionRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -130,7 +130,7 @@ final class SessionController extends AbstractController{
             }
             $entityManager->flush();
             
-            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+            return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
         }
 
         return $this->render('session/show.html.twig', [
