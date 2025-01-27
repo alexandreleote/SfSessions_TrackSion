@@ -24,8 +24,9 @@
                 <i class="fa-solid fa-users"></i> Stagiaires</a>
             </li>
             <li class="navbar-item">
-                <a href=#><i class="fa-solid fa-user-gear">
-                </i> Paramètres</a>
+                <a href={# {{ path('prof_index')}} #} {# class={{route starts with 'prof' ? 'active'}} #}>
+                <i class="fas fa-chalkboard-teacher"></i>
+                </i> Formateurs</a>
             </li>
         </ul>
 
@@ -33,7 +34,7 @@
         <section class="oauth-container">
             <div>
                 <i class="fa-solid fa-user"></i>
-                <a href={{ path('app_login')}}> {{ app.user.name }}</a>
+                <a href="#"> {{ app.user.nom }} {{ app.user.prenom }}</a>
             </div>
             <div>
                 <i class="fa-solid fa-sign-out"></i>
