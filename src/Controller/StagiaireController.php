@@ -77,11 +77,11 @@ final class StagiaireController extends AbstractController{
         $selectedStagiaires = $request->request->all('stagiaires');
         
         if (empty($selectedStagiaires)) {
-            return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+            return $this->redirectToRoute('session_show', ['id' => $sessionId]);
         }
 
         if (count($selectedStagiaires) + $session->getNbPlacesReservees() > $session->getNbPlacesTotal()) {
-            return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+            return $this->redirectToRoute('session_show', ['id' => $sessionId]);
         }
 
         foreach ($selectedStagiaires as $stagiaireId) {
@@ -92,7 +92,7 @@ final class StagiaireController extends AbstractController{
         }
 
         $entityManager->flush();
-        return $this->redirectToRoute('show_session', ['id' => $sessionId]);
+        return $this->redirectToRoute('session_show', ['id' => $sessionId]);
     }
 
     #[Route('/stagiaire/remove/{sessionId}', name: 'stagiaire_remove')]

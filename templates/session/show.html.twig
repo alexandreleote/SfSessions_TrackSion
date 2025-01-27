@@ -5,44 +5,53 @@
 
 {% block body %}
 
-<article class="index-main-container">
+<article class="main-section-container">
 
-    <header class="index-main-header">
+    <header class="main-header-container">
         <h2>{{ session.intitule }}</h2>
         <hr class="title-line">
     </header>
 
-    <section class="session-details-section">
-        <div class="session-main-content">
-                <div>
-                    <aside class="session-infos-aside">
+    <section class="main-section-content-container">
+        <div class="w-100">
+            <div>
+                <aside class="main-section-container w-100">
+                    <div class="main-section-aside">
                         <p>Référent : <a href="">{{ session.professeur }}</a></p>
-                        <div class="session-dates">
-                            <p>Dates : <span>{{ session }}</span></p>
-                            <a href=""><i class="fa-regular fa-calendar"></i></a>
-                        </div>
-                    </aside>
-                </div>
-
-                {# Section Programmes #}
-                <div class="session-programmes-section">
-                    <div class="session-prog-header">
-                        <h3>Programme</h3>
-                        <button class="btn-plus" data-modal-target="modal-add-programme">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
                     </div>
+                    <div class="main-section-aside w-100 flex jcsb">
+                        <p>Dates : <span>{{ session }}</span></p>
+                        <a href=""><i class="fa-regular fa-calendar"></i></a>
+                    </div>
+                </aside>
+            </div>
+        
+            {# Section Programmes #}
+            <aside>
+                <div class="main-section-container">
+                    <div class="main-section-aside">
+                        <div class="flex jcsb mb-25">
+                            <div class="flex aic">
+                                <h3>Programme</h3>
+                            </div>
+                            <div>
+                                <button class="btn btn-plus" data-modal-target="modal-add-programme">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>  
                     
                     {% for programme in session.programmes %}
-                        <div class="session-prog-content">
-                            <div class="session-prog-item">
+                        <div class="main-section-content">
+                            <div class="main-section-aside flex aic w-100 jcsb">
                                 <h4>{{ programme.cours.intitule }}</h4>
-                                <div class="session-prog-infos">
+                                <div class="flex aic jcsb g-20">
                                     <span>{{ programme.duree }} jours</span>
                                     <form action="{{ path('cours_remove', {'session': session.id, 'cours': programme.cours.id}) }}" method="post">
-                                        <button type="submit" class="btn-trash"><i class="fa-solid fa-trash"></i></button>
+                                        <button type="submit" class="btn-trash btn"><i class="fa-solid fa-trash"></i></button>
                                     </form>
-                                    <button class="btn-session"><i class="fa-solid fa-chevron-right"></i></button>
+                                    <button class="btn-session btn"><i class="fa-solid fa-chevron-right"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +66,7 @@
                             <div class="modal-body">
                                 {{ form_start(formProgramme) }}
                                     <div class="programmes"
-                                         data-prototype="{{ form_widget(formProgramme.programmes.vars.prototype)|e('html_attr') }}">
+                                            data-prototype="{{ form_widget(formProgramme.programmes.vars.prototype)|e('html_attr') }}">
                                         {% for programmeForm in formProgramme.programmes %}
                                             <div class="programme-item">
                                                 {{ form_row(programmeForm.cours) }}
@@ -68,88 +77,91 @@
                                     </div>
                                     <button type="button" class="btn btn-primary add-programme"><i class="fa-solid fa-plus"></i></button>
                                     {{ form_widget(formProgramme.valider, {'attr': {'class': 'btn btn-success'}}) }}
+                                    <button class="btn btn-annuler" data-close-button>Annuler</button>
                                 {{ form_end(formProgramme) }}
                             </div>
                         </div>
                     </div>
-                    <div id="overlay"></div>
                 </div>
-                
-                {# Section Stagiaires #}
-                <div class="session-stud-section">
-                    <div class="session-stud-header">
-                        <h3>Stagiaires</h3>
-                        <div class="session-stud-infos">
-                            <p><span>{{ session.nbPlacesReservees }}</span>/{{ session.nbPlacesTotal }}</p>
-                            <i class="fa-solid fa-users"></i>
-                            <p>stagiaires inscrits</p>
-                        </div>
-                    </div>  
+            </aside>
+
+            {# Section Stagiaires #}
+            <aside>
+                <div class="main-section-container">
+                    <div class="flex w-100 jcsb">
+                        <div class="main-section-aside flex aic jcsb g-20 mb-25">
+                            <h3>Stagiaires</h3>
+                            <div class="flex g-20">
+                                <p><span>{{ session.nbPlacesReservees }}</span>/{{ session.nbPlacesTotal }}</p>
+                                <i class="fa-solid fa-users"></i>
+                                <p>stagiaires inscrits</p>
+                            </div>
+                        </div>  
                     {% if session.nbPlacesReservees < session.nbPlacesTotal %}
                         <div>
-                            <button class="btn-plus" data-modal-target="modal-add-stagiaire">
+                            <button class="btn-plus btn" data-modal-target="modal-add-stagiaire">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>                            
                     {% else %}
                         <div>
-                            <button class="btn-plus" disabled><i class="fa-solid fa-plus"></i></button>  
+                            <button class="btn-plus-disabled btn" disabled><i class="fa-solid fa-plus"></i></button>  
                         </div>
                     {% endif %}
-                </div>
-                
-                {# Modale Stagiaires non inscrits #}
-                <div id="modal-add-stagiaire" class="modal-container">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2>Ajouter un nouveau stagiaire</h2>
-                        </div>
-                        <div class="modal-body">
-                            {% if nonInscrits is defined and nonInscrits|length > 0 %}
-                                <form action="{{ path('stagiaire_add', {'sessionId': session.id}) }}" method="POST">
-                                    <div class="stagiaires-list">
-                                        {% set placesRestantes = session.nbPlacesTotal - session.nbPlacesReservees %}
-                                        {% for stagiaire in nonInscrits %}
-                                            <div class="stagiaire-item">
-                                                <input type="checkbox" 
-                                                    name="stagiaires[]" 
-                                                    value="{{ stagiaire.id }}"
+                    </div>
+
+                    
+                    {# Modale Stagiaires non inscrits #}
+                    <div id="modal-add-stagiaire" class="modal-container">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Ajouter un nouveau stagiaire</h2>
+                            </div>
+                            <div class="modal-body">
+                                {% if nonInscrits is defined and nonInscrits|length > 0 %}
+                                    <form action="{{ path('stagiaire_add', {'sessionId': session.id}) }}" method="POST">
+                                        <div class="stagiaires-list">
+                                            {% set placesRestantes = session.nbPlacesTotal - session.nbPlacesReservees %}
+                                            {% for stagiaire in nonInscrits %}
+                                                <div class="stagiaire-item">
+                                                    <input type="checkbox" 
+                                                        name="stagiaires[]" 
+                                                        value="{{ stagiaire.id }}"
+                                                        {% if placesRestantes <= 0 %}disabled{% endif %}>
+                                                    <label>{{ stagiaire.nom }} {{ stagiaire.prenom }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="submit" 
+                                                    class="btn btn-add"
                                                     {% if placesRestantes <= 0 %}disabled{% endif %}>
-                                                <label>{{ stagiaire.nom }} {{ stagiaire.prenom }}</label>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    
-                                    <div class="modal-footer">
-                                        <button type="submit" 
-                                                class="btn-add"
-                                                {% if placesRestantes <= 0 %}disabled{% endif %}>
-                                            Ajouter ({{ placesRestantes }} places restantes)
-                                        </button>
-                                        <button type="button" class="btn-cancel" data-close-button>Annuler</button>
-                                    </div>
-                                </form>
+                                                Ajouter
+                                            </button>
+                                            <button type="button" class="btn btn-annuler" data-close-button>Annuler</button>
+                                        </div>
+                                    </form>
                             {% else %}
                                 <p>Aucun stagiaire disponible</p>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="overlay"></div>
 
-                <div class="session-stud-content">
-                    {% for stagiaire in stagiaires %}
-                        <button class="btn-stagiaire" data-modal-target="modal-{{ stagiaire.id }}">
-                            {{ stagiaire.initiales }}
-                        </button>
-                        
-                        {# Modale Stagiaires inscrits #}
-                        <div id="modal-{{ stagiaire.id }}" class="modal-container">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2>Retirer le stagiaire</h2>
-                                </div>
-                                <div class="modal-body">
+                    <div class="flex wrap g-20">
+                        {% for stagiaire in stagiaires %}
+                            <button class="btn btn-stagiaire" data-modal-target="modal-{{ stagiaire.id }}">
+                                {{ stagiaire.initiales }}
+                            </button>
+                            
+                            {# Modale Stagiaires inscrits #}
+                            <div id="modal-{{ stagiaire.id }}" class="modal-container">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>Retirer le stagiaire</h2>
+                                    </div>
+                                    <div class="modal-body">
                                         <div class="modal-identity">
                                             <p><span>Civilité :</span> {{ stagiaire.civilite }}</p>
                                             <p><span>Nom :</span> {{ stagiaire.nom }}</p>
@@ -163,7 +175,7 @@
                                             <p><span>E-mail :</span> {{ stagiaire.email }}</p>
                                             <p><span>Tél :</span> {{ stagiaire.phone }}</p>
                                         </div>
-                                        <div class="modal-sessions">
+                                        <div class="modal-sessions btn">
                                             <p>Inscriptions <span>countSession</span></p>
                                             <i class="fa-solid fa-chevron-right"></i>
                                         </div>
@@ -172,28 +184,29 @@
                                         <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post">
                                             <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
                                             <input type="hidden" name="session_id" value="{{ session.id }}">
-                                            <button type="submit" class="btn-desinscrire">Désinscrire</button>
+                                            <button type="submit" class="btn-desinscrire btn">Désinscrire</button>
                                         </form>
-                                        <button class="btn-annuler">Annuler</button>
+                                        <button class="btn btn-annuler" data-close-button>Annuler</button>
                                     </div>
                                 </div>
                             </div>
-                    {% endfor %}
-                
-                    {# Bouton ajout dans la liste des stagiaires #}
-                    {% if session.nbPlacesReservees < session.nbPlacesTotal %}
+                        {% endfor %}
                     
-                        <button class="btn-plus-stagiaire" data-modal-target="modal-add-stagiaire">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                                                
-                    {% else %}
+                        {# Bouton ajout dans la liste des stagiaires #}
+                        {% if session.nbPlacesReservees < session.nbPlacesTotal %}
                         
-                        <button class="btn-plus-stagiaire btn-disabled"><i class="fa-solid fa-plus"></i></button>  
-                        
-                    {% endif %}
+                            <button class="btn-plus-stagiaire btn btn-stagiaire" data-modal-target="modal-add-stagiaire">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                                                    
+                        {% else %}
+                            
+                            <button class="btn-plus-stagiaire btn btn-disabled"><i class="fa-solid fa-plus"></i></button>  
+                            
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            </aside>
         </div>
     </section>
 
