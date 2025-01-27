@@ -29,11 +29,25 @@
             </li>
         </ul>
 
+        {% if app.user %}
         <section class="oauth-container">
             <div>
                 <i class="fa-solid fa-user"></i>
+                <a href={{ path('app_login')}}> {{ app.user.name }}</a>
+            </div>
+            <div>
+                <i class="fa-solid fa-sign-out"></i>
+                <a href={{ path('app_logout')}}>Se déconnecter</a>
             </div>
         </section>
+        {% else %}
+        <section class="oauth-container">
+            <div>
+                <i class="fa-solid fa-sign-in"></i>
+                <a href={{ path('app_login')}}>Se connecter</a>
+            </div>
+        </section>
+        {% endif %}
     </section>
 
     <footer class="footer">
