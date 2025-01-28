@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Session;
 use App\Entity\Formation;
 use App\Entity\Stagiaire;
-use App\Entity\Professeur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,7 +36,7 @@ class SessionType extends AbstractType
             ])
             ->add('detailProgramme', TextType::class)
             ->add('professeur', EntityType::class, [
-                'class' => Professeur::class,
+                'class' => User::class,
                 'choice_label' => 'nom',
             ])
             ->add('formation', EntityType::class, [

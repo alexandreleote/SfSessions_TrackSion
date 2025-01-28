@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-users"></i> Stagiaires</a>
             </li>
             <li class="navbar-item">
-                <a href={# {{ path('prof_index')}} #} {# class={{route starts with 'prof' ? 'active'}} #}>
+                <a href={{ path('professeur_index')}} class={{route starts with 'professeur' ? 'active'}}>
                 <i class="fas fa-chalkboard-teacher"></i>
                 </i> Formateurs</a>
             </li>
@@ -33,19 +33,25 @@
         {% if app.user %}
         <section class="oauth-container">
             <div>
-                <i class="fa-solid fa-user"></i>
-                <a href="#"> {{ app.user.nom }} {{ app.user.prenom }}</a>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    Mon Compte
+                </a>
             </div>
             <div>
-                <i class="fa-solid fa-sign-out"></i>
-                <a href={{ path('app_logout')}}>Se déconnecter</a>
+                <a href={{ path('app_logout')}}>
+                    <i class="fa-solid fa-sign-out"></i>
+                    Se déconnecter
+                </a>
             </div>
         </section>
         {% else %}
         <section class="oauth-container">
             <div>
-                <i class="fa-solid fa-sign-in"></i>
-                <a href={{ path('app_login')}}>Se connecter</a>
+                <a href={{ path('app_login')}}>
+                    <i class="fa-solid fa-sign-in"></i>
+                    Se connecter
+                </a>
             </div>
         </section>
         {% endif %}

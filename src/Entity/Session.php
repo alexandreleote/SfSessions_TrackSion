@@ -39,9 +39,6 @@ class Session
     private Collection $programmes;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
-    private ?Professeur $professeur = null;
-
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
     private ?Formation $formation = null;
 
     /**
@@ -49,6 +46,9 @@ class Session
      */
     #[ORM\ManyToMany(targetEntity: Stagiaire::class, inversedBy: 'sessions')]
     private Collection $stagiaires;
+
+    #[ORM\ManyToOne(inversedBy: 'formateur')]
+    private ?User $formateur = null;
 
     public function __construct()
     {
@@ -208,5 +208,17 @@ class Session
     public function __toString(): string
     {
         return $this->dateDebut->format('d/m/Y').' - '.$this->dateFin->format('d/m/Y');
+    }
+
+    public function getFormateur(): ?User
+    {
+        return $this->formateur;
+    }
+
+    public function setFormateur(?User $formateur): static
+    {
+        $this->formateur = $formateur;
+
+        return $this;
     }
 }

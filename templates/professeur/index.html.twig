@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - Liste des Formateurs{% endblock %}
+
+{% block body %}
+
+        {% for type, messages in app.flashes %}
+            <div class="alert alert-{{ type }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    <section>
+        
+        <h1>Informations de l'utilisateur</h1>
+        
+        <article class="flex g-20">
+            {% for user in users %}
+                <a href={{ path('professeur_show', {'id': user.id}) }} class="btn">
+                    <div>
+
+                        <p><strong>Nom :</strong> {{ user.nom }}</p>
+                        <p><strong>Prénom :</strong> {{ user.prenom }}</p>
+                        <p><strong>Email :</strong> {{ user.email }}</p>
+                        <p><strong>Rôles :</strong> {{ user.roles|join(', ') }}</p>
+                        
+                    </div>
+                </a>    
+            {% endfor %}
+        </article>
+    
+    </section>
+<article>
+
+</article>
+
+{% endblock %}

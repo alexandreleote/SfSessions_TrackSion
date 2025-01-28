@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $prenom = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $genre = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $phone = null;
+
+    /**
+     * @var Collection<int, Session>
+     */
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'formateur')]
+    private Collection $formateur;
+
+    public function __construct()
+    {
+        $this->formateur = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,6 +150,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCivilite(): ?string
+    {
+        return ($this->genre === 'Homme'? 'Monsieur' : 'Madame');
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -148,6 +175,82 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->prenom = $prenom;
         return $this;
+    }
+
+    public function getIdentity(): ?string
+    {
+        return $this->prenom.' '.$this->nom;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): static
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Session>
+     */
+    public function getFormateur(): Collection
+    {
+        return $this->formateur;
+    }
+
+    public function addFormateur(Session $formateur): static
+    {
+        if (!$this->formateur->contains($formateur)) {
+            $this->formateur->add($formateur);
+            $formateur->setFormateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormateur(Session $formateur): static
+    {
+        if ($this->formateur->removeElement($formateur)) {
+            // set the owning side to null (unless already changed)
+            if ($formateur->getFormateur() === $this) {
+                $formateur->setFormateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string 
+    {
+        return $this->prenom.' '.$this->nom;
     }
   
 }

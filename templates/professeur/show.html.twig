@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - {{ user.nom }} {{ user.prenom }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Détails du formateur</h1>
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Civlité :</strong> {{ user.civilite }}</p>
+                <p><strong>Nom :</strong> {{ user.nom }}</p>
+                <p><strong>Prénom :</strong> {{ user.prenom }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Tél :</strong> {{ user.phone }}</p>
+            </div>
+        </div>
+        
+        <button class="btn">
+            <a href="{{ path('professeur_index') }}">Retour à la liste</a>
+        </button>
+    </div>
+{% endblock %}

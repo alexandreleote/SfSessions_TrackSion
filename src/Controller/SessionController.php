@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SessionController extends AbstractController{
     #[Route('/session', name: 'session_index')]
+    #[IsGranted('ROLE_USER')]
     public function index(SessionRepository $sessionRepository): Response
     {
         $currentSessions = $sessionRepository->findByCurrentSessions();
@@ -34,6 +35,7 @@ final class SessionController extends AbstractController{
 
     #[Route('/session/new', name: 'session_new')]
     #[Route('/session/{id}/edit', name: 'session_edit')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function new_edit(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -63,6 +65,7 @@ final class SessionController extends AbstractController{
     }
 
     #[Route('/session/{id}/delete', name: 'session_delete')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function delete(Session $session, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($session);
@@ -72,6 +75,7 @@ final class SessionController extends AbstractController{
     }
 
     #[Route('/session/{session}/cours/{cours}/add', name: 'cours_add')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function addCours(Session $session, Cours $cours, Request $request, EntityManagerInterface $entityManager): Response
     {
         $duree = $request->request->get('duree');
@@ -89,6 +93,7 @@ final class SessionController extends AbstractController{
     }
 
     #[Route('/session/{session}/cours/{cours}/remove', name: 'cours_remove')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function removeCours(Session $session, Cours $cours, EntityManagerInterface $entityManager): Response
     {
         $programme = $entityManager->getRepository(Programme::class)->findOneBy([
@@ -105,6 +110,7 @@ final class SessionController extends AbstractController{
     }
 
     #[Route('/session/{id}', name: 'session_show')]
+    #[IsGranted('ROLE_USER')]
     public function show(Session $session, SessionRepository $sessionRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
 

@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class StagiaireController extends AbstractController{
     #[Route('/stagiaire', name: 'stagiaire_index')]
+    #[IsGranted('ROLE_USER')]
     public function index(StagiaireRepository $sr,): Response
     {
 
@@ -27,6 +28,7 @@ final class StagiaireController extends AbstractController{
 
     #[Route('/stagiaire/new', name: 'stagiaire_new')]
     #[Route('/stagiaire/{id}/edit', name: 'stagiaire_edit')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function new_edit(Stagiaire $stagiaire = null, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -56,15 +58,17 @@ final class StagiaireController extends AbstractController{
     }
 
     #[Route('/stagiaire/{id}/delete', name: 'stagiaire_delete')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($stagiaire);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_stagiaire');
+        return $this->redirectToRoute('stagiaire_index');
     }
 
     #[Route('/stagiaire/add/{sessionId}', name: 'stagiaire_add')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function add(int $sessionId, EntityManagerInterface $entityManager, Request $request): Response
     {
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
@@ -96,12 +100,13 @@ final class StagiaireController extends AbstractController{
     }
 
     #[Route('/stagiaire/remove/{sessionId}', name: 'stagiaire_remove')]
+    #[IsGranted('ROLE_PROFESSEUR')]
     public function remove(int $sessionId, EntityManagerInterface $entityManager, Request $request): Response
     {
         $session = $entityManager->getRepository(Session::class)->find($sessionId);
         
         if (!$session) {
-            return $this->redirectToRoute('app_session');
+            return $this->redirectToRoute('session_index');
         }
 
         // Get single stagiaire ID from form
@@ -128,6 +133,7 @@ final class StagiaireController extends AbstractController{
     }
 
     #[Route('/stagiaire/{id}', name: 'stagiaire_show')]
+    #[IsGranted('ROLE_USER')]
     public function show(Stagiaire $stagiaire, SessionRepository $sr): Response
     {
         $currentSessions = $sr->findCurrentSessionsByStudent($stagiaire);
