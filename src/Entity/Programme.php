@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProgrammeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProgrammeRepository::class)]
 class Programme
@@ -21,7 +22,14 @@ class Programme
     #[ORM\JoinColumn(nullable: false)]
     private ?Cours $cours = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[NotBlank(message: 'La durée est obligatoire.')]
+    #[Assert\Type(type: 'integer', message: 'La durée doit être un nombre entier.')]
+    #[Assert\Range(
+        min: 1,
+        max: 365,
+        notInRangeMessage: 'La durée doit être comprise entre {{ min }} et {{ max }} jours.'
+    )]
     private ?int $duree = null;
 
     public function getId(): ?int

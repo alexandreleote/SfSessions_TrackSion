@@ -76,19 +76,29 @@ final class SessionController extends AbstractController{
 
     #[Route('/session/{session}/cours/{cours}/add', name: 'cours_add')]
     #[IsGranted('ROLE_PROFESSEUR')]
-    public function addCours(Session $session, Cours $cours, Request $request, EntityManagerInterface $entityManager): Response
+    public function addCours(Session $session, Cours $cours, Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
-        $duree = $request->request->get('duree');
-        
+        $duree = (int) $request->request->get('duree');
+
         // Create new Programme
         $programme = new Programme();
         $programme->setCours($cours);
         $programme->setSession($session);
         $programme->setDuree($duree);
-        
+
+        // Validate the Programme object
+        $violations = $validator->validate($programme);
+
+        if (count($violations) > 0) {
+            foreach ($violations as $violation) {
+                $this->addFlash('error', $violation->getMessage());
+            }
+            return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
+        }
+
         $entityManager->persist($programme);
         $entityManager->flush();
-        
+
         return $this->redirectToRoute('session_show', ['id' => $session->getId()]);
     }
 

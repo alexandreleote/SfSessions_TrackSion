@@ -35,7 +35,7 @@ class SessionType extends AbstractType
                 ],
             ])
             ->add('detailProgramme', TextType::class)
-            ->add('professeur', EntityType::class, [
+            ->add('formateur', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'nom',
             ])
