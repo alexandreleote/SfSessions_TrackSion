@@ -5,35 +5,61 @@
 
 {% block body %}
 
-    <h1>Liste des stagiaires</h1>
+{% if app.user %}
+    
+        {% if (app.user.nom == null) or (app.user.prenom == null) %}
+            <article class="main-index-container">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Identité</th>
-                <th>Initiales</th>
-                <th>Adresse</th>
-                <th>Code postal</th>
-                <th>Ville</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for stagiaire in stagiaires %}
-                <tr>
-                    <td>{{ stagiaire.identity }}</td>
-                    <td>{{ stagiaire.initiales }}</td>
-                    <td>{{ stagiaire.ville }}</td>
-                    <td>
-                        <a href="{{ path('stagiaire_show', {'id': stagiaire.id}) }}">Voir</a>
-                        <a href="{{ path('stagiaire_edit', {'id': stagiaire.id}) }}">Editer</a>
-                        <a href="{{ path('stagiaire_delete', {'id': stagiaire.id}) }}">Supprimer</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <header class="main-header-container">
+                    <div class="main-header-title">
+                        <h2>Bienvenue</h2>
+                        <hr class="title-line">
+                    </div>
+                </header>
 
-    <a href="{{ path('stagiaire_new') }}">Ajouter un stagiaire</a>
+                <p>Merci de bien vouloir renseigner vos informations personnelles.</p>
+
+                <button class="btn">
+                    <a href="">Mettre à jour mes informations</a>
+                </button>
+
+            </article>
+
+        {% else %}
+
+            <h1>Liste des stagiaires</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Identité</th>
+                        <th>Initiales</th>
+                        <th>Adresse</th>
+                        <th>Code postal</th>
+                        <th>Ville</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stagiaire in stagiaires %}
+                        <tr>
+                            <td>{{ stagiaire.identity }}</td>
+                            <td>{{ stagiaire.initiales }}</td>
+                            <td>{{ stagiaire.ville }}</td>
+                            <td>
+                                <a href="{{ path('stagiaire_show', {'id': stagiaire.id}) }}">Voir</a>
+                                <a href="{{ path('stagiaire_edit', {'id': stagiaire.id}) }}">Editer</a>
+                                <a href="{{ path('stagiaire_delete', {'id': stagiaire.id}) }}">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('stagiaire_new') }}">Ajouter un stagiaire</a>
+
+        {% endif %}
+    
+    {% endif %}
 
 {% endblock %}

@@ -104,8 +104,10 @@
                             </button>
                         </div>                            
                     {% else %}
+                    </div>
                         <div>
-                            <button class="btn-plus-disabled btn" disabled><i class="fa-solid fa-plus"></i></button>  
+                            <p>Le nombre maximum de stagiaires inscrits a été atteint.</p> 
+                            <p>Vous ne pouvez pas en ajouter d'autres.</p>    
                         </div>
                     {% endif %}
                     </div>
@@ -200,8 +202,6 @@
                             </button>
                                                     
                         {% else %}
-                            
-                            <button class="btn-plus-stagiaire btn btn-disabled"><i class="fa-solid fa-plus"></i></button>  
                             
                         {% endif %}
                     </div>

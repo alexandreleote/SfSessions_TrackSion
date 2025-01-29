@@ -44,24 +44,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $genre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
     /**
      * @var Collection<int, Session>
      */
     #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'formateur')]
-    private Collection $formateur;
+    private Collection $sessions;
 
     public function __construct()
     {
-        $this->formateur = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,7 +152,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCivilite(): ?string
     {
-        return ($this->genre === 'Homme'? 'Monsieur' : 'Madame');
+        if ($this->genre === 'Homme') {
+            return 'Monsieur';
+        } elseif ($this->genre === 'Femme') {
+            return 'Madame';
+        }
+
+        return null;
     }
 
     public function getNom(): ?string

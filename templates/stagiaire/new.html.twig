@@ -4,38 +4,64 @@
 
 
 {% block body %}
+
+    {% if app.user %}
     
-    {% if edit %}
-            
-        <h1>Editer un stagiaire</h1> 
+        {% if (app.user.nom == null) or (app.user.prenom == null) %}
+            <article class="main-index-container">
 
-    {% else %}
+                <header class="main-header-container">
+                    <div class="main-header-title">
+                        <h2>Bienvenue</h2>
+                        <hr class="title-line">
+                    </div>
+                </header>
 
-        <h1>Créer un nouveau stagiaire</h1>
+                <p>Merci de bien vouloir renseigner vos informations personnelles.</p>
+
+                <button class="btn">
+                    <a href="">Mettre à jour mes informations</a>
+                </button>
+
+            </article>
+
+        {% else %}
+
+            {% if edit %}
+                    
+                <h1>Editer un stagiaire</h1> 
+
+            {% else %}
+
+                <h1>Créer un nouveau stagiaire</h1>
+
+            {% endif %}
+
+            {# {{ form(formAddEntreprise) }} #}
+
+            {{ form_start(formNewStagiaire) }}
+                {{ form_row(formNewStagiaire.genre) }}  
+
+                <div>
+                    {{ form_row(formNewStagiaire.nom) }}
+                    {{ form_row(formNewStagiaire.prenom) }}
+                </div>
+
+                <div>
+                    {{ form_row(formNewStagiaire.dateNaissance) }}
+                    {{ form_row(formNewStagiaire.ville) }}
+                </div>
+
+                <div>
+                    {{ form_row(formNewStagiaire.email) }}
+                    {{ form_row(formNewStagiaire.phone) }}
+                </div>
+
+                {{ form_row(formNewStagiaire.valider) }}
+            {{ form_end(formNewStagiaire) }}
+        
+        {% endif %}
 
     {% endif %}
 
-    {# {{ form(formAddEntreprise) }} #}
-
-    {{ form_start(formNewStagiaire) }}
-        {{ form_row(formNewStagiaire.genre) }}  
-
-        <div>
-            {{ form_row(formNewStagiaire.nom) }}
-            {{ form_row(formNewStagiaire.prenom) }}
-        </div>
-
-        <div>
-            {{ form_row(formNewStagiaire.dateNaissance) }}
-            {{ form_row(formNewStagiaire.ville) }}
-        </div>
-
-        <div>
-            {{ form_row(formNewStagiaire.email) }}
-            {{ form_row(formNewStagiaire.phone) }}
-        </div>
-
-        {{ form_row(formNewStagiaire.valider) }}
-    {{ form_end(formNewStagiaire) }}
-        
 {% endblock %}

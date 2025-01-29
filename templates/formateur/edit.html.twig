@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrackSion - Modification : {{ user.identity }}{% endblock %}
+
+{% block body %}
+
+    <section>
+        
+        <h1>Informations de {{ user.identity}}</h1>
+        
+        <article class="flex g-20">
+           
+           {{ form_start(formEditUser)}}
+            {{form_row(formEditUser.genre)}}
+            {{form_row(formEditUser.nom)}}
+            {{form_row(formEditUser.prenom)}}
+
+            {{form_row(formEditUser.email)}}
+            {{form_row(formEditUser.phone)}}
+
+            {{form_row(formEditUser.ville)}}
+
+            {{form_row(formEditUser.valider)}}
+            {{ form_row(formEditUser._token) }}
+           {{ form_end(formEditUser, {render_rest: false})}}
+        </article>
+    
+    </section>
+<article>
+
+</article>
+
+{% endblock %}

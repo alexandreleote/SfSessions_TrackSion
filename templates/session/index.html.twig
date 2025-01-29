@@ -4,80 +4,105 @@
 
 {% block body %}
 
-    <article class="main-index-container">
+    {% if app.user %}
+    
+        {% if (app.user.nom == null) or (app.user.prenom == null) %}
+            <article class="main-index-container">
 
-        <header class="main-header-title">
-            <h2>Liste des Sessions</h2>
-            <hr class="title-line">
-        </header>
-
-
-        <a href="{{ path('session_new')}}"><i class="fa-solid fa-plus"></i></a>
-
-        <section class="main-section-container">
-
-            <h3>Sessions en cours</h3>
-
-            <div>
-                {% for currentSession in currentSessions %}
-                    
-                    <div class="main-section-content">
-                        <aside class="main-section-aside">
-                            <h3>{{ currentSession.intitule }}</h3>
-                            <p>Places restantes : <span>{{ currentSession.nbPlacesReservees }}</span>/{{ currentSession.nbPlacesTotal }}</p>
-                            <p>Dates : <span>{{ currentSession}}</span></p>
-                            <p>Référent : <a href="">{{ currentSession.professeur }}</a></p>
-                        </aside>
-                        <a class="link" href="{{ path('session_show', {'id' : currentSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                <header class="main-header-container">
+                    <div class="main-header-title">
+                        <h2>Bienvenue</h2>
+                        <hr class="title-line">
                     </div>
-                
-                {% endfor %}
-            </div>
-        </section>
-        
-        <section class="main-section-container">
+                </header>
 
-            <h3>Sessions à venir</h3>
+                <p>Merci de bien vouloir renseigner vos informations personnelles.</p>
 
-            <div>
-                {% for nextSession in nextSessions %}
-                    
-                    <div class="main-section-content">
-                        <aside class="main-section-aside">
-                            <h3>{{ nextSession.intitule }}</h3>
-                            <p>Places restantes : <span>{{ nextSession.nbPlacesReservees }}</span>/{{ nextSession.nbPlacesTotal }}</p>
-                            <p>Dates : <span>{{ nextSession }}</span></p>
-                            <p>Référent : <a href="">{{ nextSession.professeur }}</a></p>
-                        </aside>
-                        <a class="link" href="{{ path('session_show', {'id' : nextSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                <button class="btn">
+                    <a href="">Mettre à jour mes informations</a>
+                </button>
+
+            </article>
+
+        {% else %}
+
+            <article class="main-index-container">
+
+                <header class="main-header-title">
+                    <h2>Liste des Sessions</h2>
+                    <hr class="title-line">
+                </header>
+
+
+                <a href="{{ path('session_new')}}"><i class="fa-solid fa-plus"></i></a>
+
+                <section class="main-section-container">
+
+                    <h3>Sessions en cours</h3>
+
+                    <div>
+                        {% for currentSession in currentSessions %}
+                            
+                            <div class="main-section-content">
+                                <aside class="main-section-aside">
+                                    <h3>{{ currentSession.intitule }}</h3>
+                                    <p>Places restantes : <span>{{ currentSession.nbPlacesReservees }}</span>/{{ currentSession.nbPlacesTotal }}</p>
+                                    <p>Dates : <span>{{ currentSession}}</span></p>
+                                    <p>Référent : <a href="{{ path('formateur_show', {'id' : currentSession.formateur.id }) }}">{{ currentSession.formateur }}</a></p>
+                                </aside>
+                                <a class="link" href="{{ path('session_show', {'id' : currentSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                            </div>
+                        
+                        {% endfor %}
                     </div>
+                </section>
                 
-                {% endfor %}
-            </div>
-        </section>
+                <section class="main-section-container">
 
-        <section class="main-section-container">
+                    <h3>Sessions à venir</h3>
 
-            <h3>Sessions terminées</h3>
-
-            <div>
-                {% for pastSession in pastSessions %}
-                    
-                    <div class="main-section-content">
-                        <aside class="main-section-aside">
-                            <h3>{{ pastSession.intitule }}</h3>
-                            <p>Places restantes : <span>{{ pastSession.nbPlacesReservees }}</span>/{{ pastSession.nbPlacesTotal }}</p>
-                            <p>Dates : <span>{{ pastSession }}</span></p>
-                            <p>Référent : <a href="">{{ pastSession.professeur }}</a></p>
-                        </aside>
-                        <a class="link" href="{{ path('session_show', {'id' : pastSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                    <div>
+                        {% for nextSession in nextSessions %}
+                            
+                            <div class="main-section-content">
+                                <aside class="main-section-aside">
+                                    <h3>{{ nextSession.intitule }}</h3>
+                                    <p>Places restantes : <span>{{ nextSession.nbPlacesReservees }}</span>/{{ nextSession.nbPlacesTotal }}</p>
+                                    <p>Dates : <span>{{ nextSession }}</span></p>
+                                    <p>Référent : <a href="{{ path('formateur_show', {'id' : nextSession.formateur.id }) }}">{{ nextSession.formateur }}</a></p>
+                                </aside>
+                                <a class="link" href="{{ path('session_show', {'id' : nextSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                            </div>
+                        
+                        {% endfor %}
                     </div>
-                
-                {% endfor %}
-            </div>
-        </section>
+                </section>
 
-    </article>
+                <section class="main-section-container">
 
+                    <h3>Sessions terminées</h3>
+
+                    <div>
+                        {% for pastSession in pastSessions %}
+                            
+                            <div class="main-section-content">
+                                <aside class="main-section-aside">
+                                    <h3>{{ pastSession.intitule }}</h3>
+                                    <p>Places restantes : <span>{{ pastSession.nbPlacesReservees }}</span>/{{ pastSession.nbPlacesTotal }}</p>
+                                    <p>Dates : <span>{{ pastSession }}</span></p>
+                                    <p>Référent : <a href="{{ path('formateur_show', {'id' : pastSession.formateur.id }) }}">{{ pastSession.formateur }}</a></p>
+                                </aside>
+                                <a class="link" href="{{ path('session_show', {'id' : pastSession.id }) }}"><i class="fa-solid fa-chevron-right"></i></a>
+                            </div>
+                        
+                        {% endfor %}
+                    </div>
+                </section>
+
+            </article>
+
+        {% endif %}
+
+    {% endif %}
 
 {% endblock %}

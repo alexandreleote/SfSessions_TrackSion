@@ -1,108 +1,140 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TrackSion - Liste des stagiaires{% endblock %}
+{% block title %}TrackSion - {{ stagiaire.identity }} {% endblock %}
 
 {% block body %}
-<article class="index-main-container">
 
-    <header class="index-main-header">
-        <h2>Profil détaillé</h2>
-        <hr class="title-line">
-    </header>
-
-    <section class="stagiaire-details-section">
-        <div class="stagiaire-main-content">
-            <aside class="stagiaire-infos-aside">
-                <div class="stagiaire-info-group">
-                    <p><span>Civilité :</span> {{ stagiaire.civilite }} </p>
-                    <p><span>Nom :</span> {{ stagiaire.nom }} </p>
-                    <p><span>Prénom :</span> {{ stagiaire.prenom }} </p>
-                </div>
-                <div class="stagiaire-info-group">
-                    <p><span>Âge :</span> {{ stagiaire.age }} </p>
-                    <p><span>Date de naissance :</span> {{ stagiaire.dateNaissanceFormat }} </p>
-                </div>
-                <div class="stagiaire-info-group">
-                    <p><span>E-mail :</span> {{ stagiaire.email }}</p>
-                    <p><span>Tél :</span> {{ stagiaire.phone }}</p>
-                </div>
-            </aside>
-        </div>
-    </section>
-
-    <section class="stagiaire-sessions-ongoing">
-        <div>
-            <h3>Formations</h3>
-            <span>(en cours)</span>
-        </div>
-        <div class="stagiaire-sessions-content">
-            {% if currentSessions is empty %}
-                <p class="no-sessions">Pas de formations en cours</p>
-            {% else %}
-                <ul>
-                    {% for session in currentSessions %}
-                        <li class="session-item">
-                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
-                            <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
-                                <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
-                                <input type="hidden" name="referrer" value="show_stagiaire">
-                                <button type="submit" class="btn-trash">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    </section>
+ {% if app.user %}
     
-    <section class="stagiaire-sessions-ongoing">
-        <div>
-            <h3>Formations à venir</h3>
-            <span>(prochainement)</span>
-        </div>
-        <div class="stagiaire-sessions-content">
-            {% if nextSessions is empty %}
-                <p class="no-sessions">Pas de formations programmées</p>
-            {% else %}
-                <ul>
-                    {% for session in nextSessions %}
-                        <li class="session-item">
-                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
-                            <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
-                                <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
-                                <input type="hidden" name="referrer" value="show_stagiaire">
-                                <button type="submit" class="btn-trash">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    </section>
+        {% if (app.user.nom == null) or (app.user.prenom == null) %}
+            <article class="main-index-container">
 
-    <section class="stagiaire-sessions-over">
-        <div>
-            <h3>Formations terminées</h3>
-        </div>
-        <div class="stagiaire-sessions-content">
-            {% if pastSessions is empty %}
-                <p class="no-sessions">Pas de formations terminées</p>
-            {% else %}
-                <ul>
-                    {% for session in pastSessions %}
-                        <li class="session-item">
-                            <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    </section>
+                <header class="main-header-container">
+                    <div class="main-header-title">
+                        <h2>Bienvenue</h2>
+                        <hr class="title-line">
+                    </div>
+                </header>
 
-</article>
+                <p>Merci de bien vouloir renseigner vos informations personnelles.</p>
+
+                <button class="btn">
+                    <a href="">Mettre à jour mes informations</a>
+                </button>
+
+            </article>
+
+        {% else %}
+
+            <article class="index-main-container">
+
+                <header class="index-main-header">
+                    <h2>Profil détaillé</h2>
+                    <hr class="title-line">
+                </header>
+
+                <section class="stagiaire-details-section">
+                    <div class="stagiaire-main-content">
+                        <aside class="stagiaire-infos-aside">
+                            <div class="stagiaire-info-group">
+                                <p><span>Civilité :</span> {{ stagiaire.civilite }} </p>
+                                <p><span>Nom :</span> {{ stagiaire.nom }} </p>
+                                <p><span>Prénom :</span> {{ stagiaire.prenom }} </p>
+                            </div>
+                            <div class="stagiaire-info-group">
+                                <p><span>Âge :</span> {{ stagiaire.age }} </p>
+                                <p><span>Date de naissance :</span> {{ stagiaire.dateNaissanceFormat }} </p>
+                            </div>
+                            <div class="stagiaire-info-group">
+                                <p><span>E-mail :</span> {{ stagiaire.email }}</p>
+                                <p><span>Tél :</span> {{ stagiaire.phone }}</p>
+                            </div>
+                        </aside>
+                    </div>
+                </section>
+
+                <section class="stagiaire-sessions-ongoing">
+                    <div>
+                        <h3>Formations</h3>
+                        <span>(en cours)</span>
+                    </div>
+                    <div class="stagiaire-sessions-content">
+                        {% if currentSessions is empty %}
+                            <p class="no-sessions">Pas de formations en cours</p>
+                        {% else %}
+                            <ul>
+                                {% for session in currentSessions %}
+                                    <li class="session-item">
+                                        <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
+                                        <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
+                                            <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
+                                            <input type="hidden" name="referrer" value="show_stagiaire">
+                                            <button type="submit" class="btn-trash">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </section>
+                
+                <section class="stagiaire-sessions-ongoing">
+                    <div>
+                        <h3>Formations à venir</h3>
+                        <span>(prochainement)</span>
+                    </div>
+                    <div class="stagiaire-sessions-content">
+                        {% if nextSessions is empty %}
+                            <p class="no-sessions">Pas de formations programmées</p>
+                        {% else %}
+                            <ul>
+                                {% for session in nextSessions %}
+                                    <li class="session-item">
+                                        <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
+                                        <form action="{{ path('stagiaire_remove', {'sessionId': session.id}) }}" method="post" class="remove-form">
+                                            <input type="hidden" name="stagiaire_id" value="{{ stagiaire.id }}">
+                                            <input type="hidden" name="referrer" value="show_stagiaire">
+                                            <button type="submit" class="btn-trash">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <section class="stagiaire-sessions-over">
+                    <div>
+                        <h3>Formations terminées</h3>
+                    </div>
+                    <div class="stagiaire-sessions-content">
+                        {% if pastSessions is empty %}
+                            <p class="no-sessions">Pas de formations terminées</p>
+                        {% else %}
+                            <ul>
+                                {% for session in pastSessions %}
+                                    <li class="session-item">
+                                        <a href="{{ path('session_show', {'id': session.id}) }}">{{ session.intitule }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <button class="stagiaire-pdf-section btn">
+                    <a href="{{ path('generate_pdf', {'id': stagiaire.id}) }}" class="btn-pdf">Générer le PDF</a>
+                </button>
+
+
+            </article>
+
+        {% endif %}
+
+    {% endif %}
 
 {% endblock %}

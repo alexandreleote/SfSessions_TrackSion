@@ -14,8 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 
 class RegistrationFormType extends AbstractType
@@ -35,7 +37,8 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Genre',
                 'choices' => [
                     'Homme' => 'Homme', 
-                    'Femme' => 'Femme'
+                    'Femme' => 'Femme',
+                    '' => null,
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -44,11 +47,19 @@ class RegistrationFormType extends AbstractType
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone',
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'options' => ['attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'password-field'
+                    ]],
+                'required' => true,
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => 'Confirm Password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -71,6 +82,12 @@ class RegistrationFormType extends AbstractType
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
+                ],
+            ])
+            ->add('valider', SubmitType::class, [
+                'label' => 'Valider',
+                'attr' => [
+                    'class' => 'btn'
                 ],
             ])
         ;

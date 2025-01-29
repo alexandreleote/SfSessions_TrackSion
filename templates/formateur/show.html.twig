@@ -12,11 +12,16 @@
                 <p><strong>Prénom :</strong> {{ user.prenom }}</p>
                 <p><strong>Email :</strong> {{ user.email }}</p>
                 <p><strong>Tél :</strong> {{ user.phone }}</p>
+                <p><strong>Ville :</strong> {{ user.ville }}</p>
             </div>
         </div>
         
         <button class="btn">
-            <a href="{{ path('professeur_index') }}">Retour à la liste</a>
+            <a href="{{ path('formateur_edit', {'id': user.id}) }}">Modifier</a>
+        </button>
+
+        <button class="btn">
+            <a href="{{ path('formateur_index') }}">Retour à la liste</a>
         </button>
     </div>
 {% endblock %}
